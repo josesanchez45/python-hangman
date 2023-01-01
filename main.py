@@ -1,8 +1,10 @@
 import random
+import hangmanPrint
 #Step 1 
 
 word_list = ["aardvark", "baboon", "camel"]
 endOfGame = False
+lives = 6
 
 #Randomly choose a word from the word_list and assign it to a variable called chosen_word.
 chosen_word = random.choice(word_list)
@@ -23,10 +25,16 @@ while not endOfGame:
         letter = chosen_word[point]
         if letter == guess:
             display[point] = letter
-    
-    print(display)
-    
+    if guess not in chosen_word:
+        lives -= 1
+        if lives == 0:
+            endOfGame = True
+            print("You Lose, better luck next time")
+
+    print(f"{' '.join(display)}")
+
     if '_' not in display:
         endOfGame = True
         print("You win!")
+    print(hangmanPrint.stages[lives])
 

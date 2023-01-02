@@ -1,20 +1,23 @@
 import random
 import hangmanPrint
+import WordList
 #Step 1 
 
-word_list = ["aardvark", "baboon", "camel"]
+WordList.word_list
 endOfGame = False
 lives = 6
+guessedWords = []
 
+print(hangmanPrint.logo)
 #Randomly choose a word from the word_list and assign it to a variable called chosen_word.
-chosen_word = random.choice(word_list)
+chosen_word = random.choice(WordList.word_list)
 #Ask the user to guess a letter and assign their answer to a variable called guess. Make guess lowercase.
-print(chosen_word)
 word_length = len(chosen_word)
 display = []
 for letter in chosen_word:
     display.append('_')
-    
+
+
 print(display)
 
 while not endOfGame:
@@ -25,16 +28,28 @@ while not endOfGame:
         letter = chosen_word[point]
         if letter == guess:
             display[point] = letter
-    if guess not in chosen_word:
+            guessedWords.append(guess)
+            
+    print(hangmanPrint.stages[lives])
+
+    for word in guessedWords:
+        if guess == word:
+            print(f"You've already guess {guess}")
+
+    if guess not in chosen_word and guess not in guessedWords:
         lives -= 1
+        print(f"Sorry {guess} is not in the word.")
+        guessedWords.append(guess)
+        
         if lives == 0:
             endOfGame = True
             print("You Lose, better luck next time")
+
 
     print(f"{' '.join(display)}")
 
     if '_' not in display:
         endOfGame = True
         print("You win!")
-    print(hangmanPrint.stages[lives])
+
 
